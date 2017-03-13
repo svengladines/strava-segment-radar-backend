@@ -58,6 +58,7 @@ public class Location {
 		t.setUserID( f.getUserID() );
 		t.setLattitude( f.getLattitude() );
 		t.setLongitude( f.getLongitude() );
+		t.setMoment( f.getMoment() );
 		
 		return t;
 		
@@ -72,6 +73,7 @@ public class Location {
 		t.setUserID( f.getUserID() );
 		t.setLattitude( f.getLattitude() );
 		t.setLongitude( f.getLongitude() );
+		t.setMoment( f.getMoment() );
 		
 		return t;
 		
@@ -85,6 +87,7 @@ public class Location {
 		t.setUserID( f.getUserID() );
 		t.setLattitude( f.getLattitude() );
 		t.setLongitude( f.getLongitude() );
+		t.setMoment( f.getMoment() );
 		
 		return t;
 		
@@ -99,6 +102,7 @@ public class Location {
 		t.setUserID( f.getUserID() );
 		t.setLattitude( f.getLattitude() );
 		t.setLongitude( f.getLongitude() );
+		t.setMoment( f.getMoment() );
 		
 		return t;
 		

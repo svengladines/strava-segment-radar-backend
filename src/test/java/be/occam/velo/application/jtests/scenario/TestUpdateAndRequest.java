@@ -35,16 +35,21 @@ public class TestUpdateAndRequest extends JTest {
 	@Test
 	public void doesItSmoke() {
 		
-		double longi = 50D;
-		double latti = 50D;
+		double longi1 = 50D;
+		double latti1 = 50D;
 		
-		update( Ids.REINI, longi, latti, as( Ids.REINI ) );
+		update( Ids.REINI, longi1, latti1, as( Ids.REINI ) );
+		
+		double longi2 = 50D;
+		double latti2 = 50D;
+		
+		update( Ids.REINI, longi2, latti2, as( Ids.REINI ) );
 		
 		LocationDTO reini
 			= reini( retrieve( as( Ids.KRIKKE ) ) );
 		
-		assertEquals( longi, reini.getLongitude(), 0.001D );
-		assertEquals( latti, reini.getLattitude(), 0.001D );
+		assertEquals( longi2, reini.getLongitude(), 0.001D );
+		assertEquals( latti2, reini.getLattitude(), 0.001D );
 		
 	}
 	

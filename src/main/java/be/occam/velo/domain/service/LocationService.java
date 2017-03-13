@@ -3,6 +3,7 @@ package be.occam.velo.domain.service;
 import static be.occam.utils.javax.Utils.list;
 import static be.occam.utils.javax.Utils.map;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -18,7 +19,6 @@ import be.occam.velo.LocationDTO;
 import be.occam.velo.application.util.DataGuard;
 import be.occam.velo.domain.object.Location;
 import be.occam.velo.domain.people.LocationManager;
-import be.occam.velo.repository.LocationEntity;
 
 public class LocationService {
 	
@@ -95,6 +95,9 @@ public class LocationService {
 		
 		logger.info( "[{}]; consume");
 		
+		Date now
+			= new Date();
+		
 		Result<List<LocationDTO>> result
 			= new Result<List<LocationDTO>>();
 		
@@ -107,6 +110,8 @@ public class LocationService {
 			
 			Location l
 				= Location.from( location );
+			
+			l.setMoment( now );
 			
 			Location created 
 				= this.locationManager.create( l );
