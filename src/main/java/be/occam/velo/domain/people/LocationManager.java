@@ -1,34 +1,20 @@
 package be.occam.velo.domain.people;
 
-import static be.occam.utils.javax.Utils.isEmpty;
-
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.Resource;
-import javax.mail.internet.MimeMessage;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.mail.javamail.MimeMessageHelper;
 
-import be.occam.velo.domain.exception.ErrorCodes;
-import be.occam.velo.domain.exception.VeloException;
 import be.occam.velo.domain.object.Location;
+import be.occam.velo.repository.LocationEntity;
 import be.occam.velo.repository.LocationRepository;
 
 import com.google.appengine.api.datastore.KeyFactory;
-
-import freemarker.template.Configuration;
-import freemarker.template.Template;
 
 public class LocationManager {
 	
@@ -51,14 +37,19 @@ public class LocationManager {
     public LocationManager() {
     }
     
-    public Location create( Location Location ) {
-    	return this.create( Location, true );
+    public Location create( Location location ) {
+    	
+    	return this.create( location, false );
+    	
     }
     
     public Location create( Location location, boolean sendEmail ) {
     	
-    	Location saved 
-    		= this.locationRepository.saveAndFlush( location );
+    	LocationEntity entity
+    		= Location.entity( location );
+    	
+    	LocationEntity saved 
+    		= this.locationRepository.saveAndFlush( entity );
     	
     	saved.setUuid( KeyFactory.keyToString( saved.getKey() ) );
     	
@@ -67,11 +58,11 @@ public class LocationManager {
     	
     	logger.info( "created location for [{}] with uuid [{}], lattitude [{}] and longitude [{}]", new Object[] { saved.getUserID(), saved.getUuid(), saved.getLongitude(), saved.getLattitude() } );
     	
-    	return saved;
+    	return Location.from(saved);
     	
     }
 
-    public Location update( String uuid, Location Location ) {
+    public Location update( String uuid, Location location ) {
     	
     	Location loaded 
     		= location( uuid );
@@ -80,42 +71,28 @@ public class LocationManager {
     		return null;
     	}
     	
-    	Location saved
-    		= this.locationRepository.saveAndFlush( loaded );
+    	LocationEntity entity
+			= Location.entity( location );
+	
+    	LocationEntity saved 
+			= this.locationRepository.saveAndFlush( entity );
     	
     	logger.info( "updated Location with uiid [{}]", saved.getUuid() );
     	
-    	return saved;
-    	
-    }
-    
-  public Location delete( String uuid ) {
-    	
-    	Location loaded 
-    		= location( uuid );
-    	
-    	if ( loaded == null ) {
-    		return null;
-    	}
-    	
-    	this.locationRepository.delete( loaded );
-    	
-    	logger.info( "deleted Location with uiid [{}]", uuid );
-    	
-    	return loaded;
+    	return Location.from(saved);
     	
     }
     
     protected Location location( String id ) {
     	
-    	Location organisatie
+    	LocationEntity entity
     		= this.locationRepository.findByUuid( id );
     	
-    	if ( organisatie != null ) {
+    	if ( entity != null ) {
     		logger.debug( "found Location with id [{}]", id );
     	}
     	
-    	return organisatie;
+    	return Location.from( entity );
     	
     }
     
@@ -125,30 +102,17 @@ public class LocationManager {
     
     public List<Location> all( ) {
     	
-    	List<Location> all
+    	List<LocationEntity> entities
     		= this.locationRepository.findAll();
     	
     	List<Location> filtered
 			= new ArrayList<Location>();
     	
-    	/*
-    	
-    	for ( Location Location : all ) {
+    	for ( LocationEntity entity : entities ) {
     		
-    		if ( PirlewietUtil.isPirlewiet( Location ) ) {
-    			continue;
-    		}
-    		
-    		if ( PirlewietUtil.isPD( Location ) ) {
-    			continue;
-    		}
-    		
-    		filtered.add( Location );
+    		filtered.add( Location.from( entity ) );
     		
     	}
-    	
-    	*/
-    	
     	
     	Collections.sort( filtered , this.lastUpdatedFirst );
     	

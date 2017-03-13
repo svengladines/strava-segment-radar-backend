@@ -21,6 +21,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import be.occam.utils.spring.configuration.ConfigurationProfiles;
 import be.occam.velo.application.util.DataGuard;
 import be.occam.velo.application.util.NoopGuard;
+import be.occam.velo.domain.people.LocationManager;
 import be.occam.velo.domain.service.LocationService;
 
 @Configuration
@@ -54,7 +55,7 @@ public class ViveLeVeloApplicationConfig {
 		}
 		
 		@Bean
-		String acsiDigitaalEmailAddress() {
+		String svekkesEmailAddress() {
 			
 			return "sven.gladines@gmail.com"; 
 			
@@ -85,6 +86,11 @@ public class ViveLeVeloApplicationConfig {
 		@Bean
 		public LocationService entryService(  ) {
 			return new LocationService(  );
+		}
+		
+		@Bean
+		public LocationManager locationManager() {
+			return new LocationManager();
 		}
 		
 		/*

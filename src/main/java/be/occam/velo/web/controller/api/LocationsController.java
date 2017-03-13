@@ -9,9 +9,13 @@ import javax.annotation.Resource;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -34,7 +38,7 @@ public class LocationsController {
 	
 	@RequestMapping( method = { RequestMethod.GET } )
 	@ResponseBody
-	public ResponseEntity<List<LocationDTO>> query( @RequestParam( required=true ) String userID, WebRequest request ) {
+	public ResponseEntity<List<LocationDTO>> query( @RequestParam( required=false ) String userID, WebRequest request ) {
 		
 		logger.debug( "GET; query for user [{}]", userID );
 		
@@ -53,5 +57,28 @@ public class LocationsController {
 		return response( locations, HttpStatus.OK );
 			
 	}
+	
+	@RequestMapping( method = { RequestMethod.POST }, consumes = { MediaType.APPLICATION_JSON_VALUE } )
+	@ResponseBody
+	public ResponseEntity<List<LocationDTO>> post( @RequestBody List<LocationDTO> locations, WebRequest request ) {
+		
+		logger.info( "locations received: [{}]", locations );
+		
+		HttpHeaders httpHeaders
+			= new HttpHeaders();
+
+		httpHeaders.add("Access-Control-Allow-Origin", "*" ) ;
+		httpHeaders.add("Access-Control-Allow-Methods", "GET,OPTIONS" );
+		httpHeaders.add("Access-Control-Allow-Credentials","true");
+		
+		this.locationService.guard().consume( locations );
+
+		ResponseEntity<List<LocationDTO>> response
+			= new ResponseEntity<List<LocationDTO>>( locations , httpHeaders, HttpStatus.OK );
+
+
+		return response;
+
+}
 	
 }

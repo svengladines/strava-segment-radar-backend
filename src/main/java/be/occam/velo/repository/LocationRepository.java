@@ -3,10 +3,10 @@ package be.occam.velo.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Component;
 
-import be.occam.velo.domain.object.Location;
+
 
 @Component
-public interface LocationRepository extends JpaRepository<Location, String>{
+public interface LocationRepository extends JpaRepository<LocationEntity, String>{
 	
 	/*
 	@Query("select a from be.pirlewiet.digitaal.model.Application a where a.organisationUuid = :1 AND a.year = :2")
@@ -17,6 +17,6 @@ public interface LocationRepository extends JpaRepository<Location, String>{
 	public List<Application> findByOrganisationUuid( String organisationUuid );
 	*/
 	
-	public Location findByUuid( String uuid );
+	public LocationEntity findByUuid( String uuid );
 
 }

@@ -16,6 +16,9 @@ import be.occam.utils.spring.web.Result;
 import be.occam.utils.spring.web.Result.Value;
 import be.occam.velo.LocationDTO;
 import be.occam.velo.application.util.DataGuard;
+import be.occam.velo.domain.object.Location;
+import be.occam.velo.domain.people.LocationManager;
+import be.occam.velo.repository.LocationEntity;
 
 public class LocationService {
 	
@@ -24,6 +27,9 @@ public class LocationService {
 	
 	@Resource
 	DataGuard dataGuard;
+	
+	@Resource
+	LocationManager locationManager;
 	
 	public LocationService( ) {
 		logger.info( "location service started" );
@@ -40,8 +46,20 @@ public class LocationService {
 		List<Result<LocationDTO>> individualResults
 			= list();
 		
+		List<Location> locations
+			= list( );
+		
 		Map<String, List<LocationDTO>> map
 			= map();
+		
+		if ( userID == null ) {
+			
+			List<Location> all 
+				= this.locationManager.all();
+			
+			locations.addAll( all );
+			
+		}
 		
 		/*
 		for ( String recipient : MiniMaxi.RECIPIENTS ) {
@@ -52,34 +70,19 @@ public class LocationService {
 			
 		}
 		*/
-		
-		for ( String recipient : map.keySet() ) {
 			
-			if ( userID != null ) {
-				
-				if ( ! userID.equals( recipient ) ) {
-					continue;
-				}
-				
-			}
+		for ( Location location: locations ) {
 			
-			List<LocationDTO> adventures
-				= map.get( recipient );
+			Result<LocationDTO> individualResult
+				= new Result<LocationDTO>();
 			
-			for ( LocationDTO adventure: adventures ) {
-				
-				Result<LocationDTO> individualResult
-					= new Result<LocationDTO>();
-				
-				individualResult.setValue( Value.OK );
-				individualResult.setObject( adventure );
-				
-				individualResults.add( individualResult );
-				
-			}
+			individualResult.setValue( Value.OK );
+			individualResult.setObject( Location.dto( location ) );
+			
+			individualResults.add( individualResult );
 			
 		}
-		
+			
 		result.setValue( Value.OK );
 		result.setObject( individualResults );
 		
@@ -88,21 +91,35 @@ public class LocationService {
 	}
 	
 	@Transactional( readOnly=false )
-	public Result<LocationDTO> add( String recipient, LocationDTO adventure ) {
+	public Result<List<LocationDTO>> consume( List<LocationDTO> locations ) {
 		
-		logger.info( "add" );
+		logger.info( "[{}]; consume");
 		
-		Result<LocationDTO> result
-			= new Result<LocationDTO>();
+		Result<List<LocationDTO>> result
+			= new Result<List<LocationDTO>>();
+		
+		List<LocationDTO> consumed
+			= list();
 		
 		result.setValue( Value.OK );
-		result.setObject( adventure );
-
+		
+		for ( LocationDTO location : locations ) {
+			
+			Location l
+				= Location.from( location );
+			
+			Location created 
+				= this.locationManager.create( l );
+			
+			consumed.add( Location.dto( created ) );
+			
+		}
+		
+		result.setObject( consumed );
 		
 		return result;
-			
+		
 	}
-
 	
 	public LocationService guard() {
 		this.dataGuard.guard();

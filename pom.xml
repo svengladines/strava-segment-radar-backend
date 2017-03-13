@@ -15,10 +15,19 @@
 	
 	<dependencies>
 	
+		<!-- DTO -->
 		<dependency>
 			<type>jar</type>
 			<groupId>be.occam.velo</groupId>
 			<artifactId>vive-le-velo-model</artifactId>
+			<version>1.0-LATEST-SNAPSHOT</version>
+		</dependency>
+		
+		<!-- JPA -->
+		<dependency>
+			<type>jar</type>
+			<groupId>be.occam.velo</groupId>
+			<artifactId>vive-le-velo-repository</artifactId>
 			<version>1.0-LATEST-SNAPSHOT</version>
 		</dependency>
 	
