@@ -14,8 +14,6 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.transaction.PlatformTransactionManager;
 
 import be.occam.utils.spring.configuration.ConfigurationProfiles;
-import be.occam.velo.application.util.DataGuard;
-import be.occam.velo.application.util.NoopGuard;
 
 @Configuration
 @Profile(ConfigurationProfiles.PRODUCTION)

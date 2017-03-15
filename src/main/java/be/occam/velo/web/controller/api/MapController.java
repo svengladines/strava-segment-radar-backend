@@ -1,6 +1,5 @@
 package be.occam.velo.web.controller.api;
 
-import static be.occam.utils.javax.Utils.list;
 import static be.occam.utils.spring.web.Controller.response;
 
 import javax.annotation.Resource;
@@ -20,8 +19,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.WebRequest;
 
 import be.occam.utils.spring.web.Result;
-import be.occam.velo.LocationDTO;
-import be.occam.velo.MapDTO;
 import be.occam.velo.domain.service.MapService;
 
 @Controller

@@ -22,45 +22,46 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.WebRequest;
 
 import be.occam.utils.spring.web.Result;
-import be.occam.velo.domain.service.LocationService;
+import be.occam.velo.RideDTO;
+import be.occam.velo.domain.service.RideService;
 
 @Controller
-@RequestMapping(value="/locations")
-public class LocationsController {
+@RequestMapping(value="/rides")
+public class RidesController {
 	
 	private final Logger logger 
-		= LoggerFactory.getLogger( LocationsController.class );
+		= LoggerFactory.getLogger( RidesController.class );
 	
 	@Resource
-	LocationService locationService;
+	RideService rideService;
 	
 	@RequestMapping( method = { RequestMethod.GET } )
 	@ResponseBody
-	public ResponseEntity<List<LocationDTO>> query( @RequestParam( required=false ) String userID, WebRequest request ) {
+	public ResponseEntity<List<RideDTO>> query( @RequestParam( required=false ) Boolean today, WebRequest request ) {
 		
-		logger.debug( "GET; query for user [{}]", userID );
+		logger.debug( "GET; today = [{}]", today );
 		
-		Result<List<Result<LocationDTO>>> locationsResult
-			= locationService.guard().query( userID );
+		Result<List<Result<RideDTO>>> ridesResult
+			= rideService.guard().query( today );
 		
-		List<LocationDTO> locations
+		List<RideDTO> rides
 			= list();
 		
-		for ( Result<LocationDTO> result : locationsResult.getObject() ) {
+		for ( Result<RideDTO> result : ridesResult.getObject() ) {
 			
-			locations.add( result.getObject() );
+			rides.add( result.getObject() );
 			
 		}
 		
-		return response( locations, HttpStatus.OK );
+		return response( rides, HttpStatus.OK );
 			
 	}
 	
 	@RequestMapping( method = { RequestMethod.POST }, consumes = { MediaType.APPLICATION_JSON_VALUE } )
 	@ResponseBody
-	public ResponseEntity<List<LocationDTO>> post( @RequestBody List<LocationDTO> locations, WebRequest request ) {
+	public ResponseEntity<List<RideDTO>> post( @RequestBody List<RideDTO> rides, WebRequest request ) {
 		
-		logger.info( "locations received: [{}]", locations );
+		logger.info( "rides received: [{}]", rides );
 		
 		HttpHeaders httpHeaders
 			= new HttpHeaders();
@@ -69,10 +70,10 @@ public class LocationsController {
 		httpHeaders.add("Access-Control-Allow-Methods", "GET,OPTIONS" );
 		httpHeaders.add("Access-Control-Allow-Credentials","true");
 		
-		this.locationService.guard().consume( locations );
+		this.rideService.guard().consume( rides );
 
-		ResponseEntity<List<LocationDTO>> response
-			= new ResponseEntity<List<LocationDTO>>( locations , httpHeaders, HttpStatus.OK );
+		ResponseEntity<List<RideDTO>> response
+			= new ResponseEntity<List<RideDTO>>( rides , httpHeaders, HttpStatus.OK );
 
 
 		return response;

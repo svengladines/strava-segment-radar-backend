@@ -1,13 +1,14 @@
 package be.occam.velo.application.util;
 
-import static be.occam.utils.spring.web.Client.*;
+import static be.occam.utils.spring.web.Client.getJSON;
+import static be.occam.utils.spring.web.Client.postJSON;
+
 import java.util.HashMap;
 import java.util.Map;
 
 import org.junit.Assert;
 import org.springframework.http.ResponseEntity;
 
-import be.occam.velo.LocationDTO;
 import be.occam.velo.application.jtests.TestData.Ids;
 import be.occam.velo.web.util.Headers;
 

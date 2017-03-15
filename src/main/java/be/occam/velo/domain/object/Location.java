@@ -2,7 +2,6 @@ package be.occam.velo.domain.object;
 
 import java.util.Date;
 
-import be.occam.velo.LocationDTO;
 import be.occam.velo.repository.LocationEntity;
 
 public class Location {

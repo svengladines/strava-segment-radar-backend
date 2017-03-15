@@ -5,7 +5,6 @@ import org.junit.Test;
 
 import be.occam.test.jtest.JTest;
 import be.occam.utils.spring.web.Client;
-import be.occam.velo.LocationDTO;
 
 public class TestLocationsController extends JTest {
 	

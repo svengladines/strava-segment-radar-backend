@@ -1,13 +1,16 @@
 package be.occam.velo.application.jtests.scenario;
 
+import static be.occam.velo.application.util.TestUtil.as;
+import static be.occam.velo.application.util.TestUtil.locationsURL;
+import static be.occam.velo.application.util.TestUtil.reini;
+import static be.occam.velo.application.util.TestUtil.retrieve;
+import static be.occam.velo.application.util.TestUtil.update;
+import static org.junit.Assert.assertEquals;
+
 import org.junit.Before;
 import org.junit.Test;
 
-import static be.occam.velo.application.util.TestUtil.*;
-import static org.junit.Assert.*;
-
 import be.occam.test.jtest.JTest;
-import be.occam.velo.LocationDTO;
 import be.occam.velo.application.jtests.TestData.Ids;
 
 /**
