@@ -1,13 +1,12 @@
 package be.occam.velo.domain.service;
 
-import static be.occam.utils.javax.Utils.*;
-import static be.occam.utils.javax.Utils.map;
+import static be.occam.utils.javax.Utils.isEmpty;
+import static be.occam.utils.javax.Utils.list;
 
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -20,6 +19,7 @@ import be.occam.utils.spring.web.Result.Value;
 import be.occam.utils.timing.Timing;
 import be.occam.velo.RideDTO;
 import be.occam.velo.application.util.DataGuard;
+import be.occam.velo.domain.object.Coordinate;
 import be.occam.velo.domain.object.Ride;
 import be.occam.velo.domain.people.RideManager;
 

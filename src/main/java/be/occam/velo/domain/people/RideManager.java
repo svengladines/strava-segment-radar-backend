@@ -56,7 +56,7 @@ public class RideManager {
     	saved 
 			= this.rideRepository.saveAndFlush( saved );
     	
-    	logger.info( "created ride with uuid [{}] and title [{}]", new Object[] { saved.getUuid(), saved.getTitle() } );
+    	logger.info( "created ride with uuid [{}], title [{}], start [{},{}]", new Object[] { saved.getUuid(), saved.getTitle(), saved.getStartLatitude(), saved.getStartLongitude() } );
     	
     	return Ride.from(saved);
     	

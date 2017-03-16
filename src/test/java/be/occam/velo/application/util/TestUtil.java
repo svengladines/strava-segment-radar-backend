@@ -9,9 +9,11 @@ import java.util.Map;
 import org.junit.Assert;
 import org.springframework.http.ResponseEntity;
 
+import be.occam.utils.spring.web.Result;
 import be.occam.velo.LocationDTO;
 import be.occam.velo.RideDTO;
 import be.occam.velo.application.jtests.TestData.Ids;
+import be.occam.velo.domain.object.Ride;
 import be.occam.velo.web.util.Headers;
 
 public class TestUtil {
@@ -25,6 +27,10 @@ public class TestUtil {
 	public static String locationsURL( ) {
 		return locationsURL;
 	}
+	
+	public static class RidesResult extends Result<RideDTO[]> {
+		
+	};
 	
 	public static Map<String,String> as( String userId ) {
 
@@ -129,9 +135,9 @@ public class TestUtil {
 		
 	}
 	
-	public static RideDTO ride( ResponseEntity<RideDTO[]> response ) {
+	public static RideDTO ride( ResponseEntity<RidesResult> response ) {
 		
-		return ride( response.getBody() );
+		return ride( response.getBody().getObject() );
 		
 	}
 	

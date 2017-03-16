@@ -1,13 +1,15 @@
 package be.occam.velo.application.jtests;
 
-import static be.occam.utils.spring.web.Client.*;
-import static be.occam.velo.application.util.TestUtil.*;
+import static be.occam.utils.spring.web.Client.postJSON;
+
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.http.ResponseEntity;
 
 import be.occam.test.jtest.JTest;
-import be.occam.utils.spring.web.Client;
+import be.occam.velo.CoordinateDTO;
 import be.occam.velo.RideDTO;
+import be.occam.velo.application.util.TestUtil.RidesResult;
 
 public class TestRidesController extends JTest {
 	
@@ -31,10 +33,16 @@ public class TestRidesController extends JTest {
 		RideDTO one
 			= new RideDTO();
 		
-		RideDTO consumed
-			= ride( postJSON( this.ridesURL, new RideDTO[] { one } ) );
+		CoordinateDTO start
+			= new CoordinateDTO();
+		start.setLatitude( 50.0D );
+		start.setLongitude( 50.0D );
 		
-		logger.info( "consumed ride has title [{}]", consumed.getTitle() );
+		one.setStart( start );
+		
+		postJSON( this.ridesURL, new RideDTO[] { one } );
+		
+		//logger.info( "consumed ride has title [{}]", consumed.getTitle() );
 		
 	}
 	

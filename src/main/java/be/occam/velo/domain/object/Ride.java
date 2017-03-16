@@ -2,6 +2,7 @@ package be.occam.velo.domain.object;
 
 import java.util.Date;
 
+import be.occam.velo.CoordinateDTO;
 import be.occam.velo.RideDTO;
 import be.occam.velo.repository.RideEntity;
 
@@ -12,6 +13,7 @@ public class Ride {
 	protected String title;
 	protected double radius;
 	protected Date moment;
+	protected Coordinate start;
 	
 	public String getUuid() {
 		return uuid;
@@ -45,6 +47,14 @@ public class Ride {
 		this.moment = moment;
 	}
 	
+	public Coordinate getStart() {
+		return start;
+	}
+
+	public void setStart(Coordinate start) {
+		this.start = start;
+	}
+
 public static Ride from( RideDTO f ) {
 		
 		Ride t
@@ -52,6 +62,13 @@ public static Ride from( RideDTO f ) {
 		t.setUuid( f.getUuid() );
 		t.setTitle( f.getTitle() );
 		t.setMoment( f.getMoment() );
+		
+		Coordinate start
+			= new Coordinate();
+		start.setLatitude( f.getStart().getLatitude() );
+		start.setLongitude( f.getStart().getLongitude() );
+		
+		t.setStart( start );
 		
 		return t;
 		
@@ -66,6 +83,13 @@ public static Ride from( RideDTO f ) {
 		t.setTitle( f.getTitle() );
 		t.setMoment( f.getMoment() );
 		
+		CoordinateDTO start
+			= new CoordinateDTO();
+		start.setLatitude( f.getStart().getLatitude() );
+		start.setLongitude( f.getStart().getLongitude() );
+		
+		t.setStart( start );
+		
 		return t;
 		
 	}
@@ -77,6 +101,15 @@ public static Ride from( RideDTO f ) {
 		t.setUuid( f.getUuid() );
 		t.setTitle( f.getTitle() );
 		t.setMoment( f.getMoment() );
+		
+		
+		Coordinate start
+			= new Coordinate();
+		
+		start.setLatitude( f.getStartLatitude() );
+		start.setLongitude( f.getStartLongitude() );
+		
+		t.setStart( start );
 		
 		return t;
 		
@@ -90,6 +123,8 @@ public static Ride from( RideDTO f ) {
 		t.setUuid( f.getUuid() );
 		t.setTitle( f.getTitle() );
 		t.setMoment( f.getMoment() );
+		t.setStartLatitude( f.getStart().getLatitude() );
+		t.setStartLongitude( f.getStart().getLongitude() );
 		
 		return t;
 		
