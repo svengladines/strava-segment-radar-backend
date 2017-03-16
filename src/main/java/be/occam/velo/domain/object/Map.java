@@ -1,5 +1,6 @@
 package be.occam.velo.domain.object;
 
+import be.occam.velo.MapDTO;
 import be.occam.velo.repository.MapEntity;
 
 

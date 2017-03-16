@@ -37,29 +37,20 @@ public class RidesController {
 	
 	@RequestMapping( method = { RequestMethod.GET } )
 	@ResponseBody
-	public ResponseEntity<List<RideDTO>> query( @RequestParam( required=false ) Boolean today, WebRequest request ) {
+	public ResponseEntity<Result<List<Result<RideDTO>>>> query( @RequestParam( required=false ) Boolean today, WebRequest request ) {
 		
 		logger.debug( "GET; today = [{}]", today );
 		
 		Result<List<Result<RideDTO>>> ridesResult
 			= rideService.guard().query( today );
 		
-		List<RideDTO> rides
-			= list();
-		
-		for ( Result<RideDTO> result : ridesResult.getObject() ) {
-			
-			rides.add( result.getObject() );
-			
-		}
-		
-		return response( rides, HttpStatus.OK );
+		return response( ridesResult, HttpStatus.OK );
 			
 	}
 	
 	@RequestMapping( method = { RequestMethod.POST }, consumes = { MediaType.APPLICATION_JSON_VALUE } )
 	@ResponseBody
-	public ResponseEntity<List<RideDTO>> post( @RequestBody List<RideDTO> rides, WebRequest request ) {
+	public ResponseEntity<Result<List<RideDTO>>> post( @RequestBody List<RideDTO> rides, WebRequest request ) {
 		
 		logger.info( "rides received: [{}]", rides );
 		
@@ -67,17 +58,40 @@ public class RidesController {
 			= new HttpHeaders();
 
 		httpHeaders.add("Access-Control-Allow-Origin", "*" ) ;
-		httpHeaders.add("Access-Control-Allow-Methods", "GET,OPTIONS" );
+		httpHeaders.add("Access-Control-Allow-Methods", "POST" );
 		httpHeaders.add("Access-Control-Allow-Credentials","true");
 		
-		this.rideService.guard().consume( rides );
+		Result<List<RideDTO>> result
+			= this.rideService.guard().consume( rides );
 
-		ResponseEntity<List<RideDTO>> response
-			= new ResponseEntity<List<RideDTO>>( rides , httpHeaders, HttpStatus.OK );
-
+		ResponseEntity<Result<List<RideDTO>>> response
+			= new ResponseEntity<Result<List<RideDTO>>>( result , httpHeaders, HttpStatus.OK );
 
 		return response;
 
-}
+	}
+	
+	@RequestMapping( value="/**", method = { RequestMethod.OPTIONS } )
+	@ResponseBody
+	public ResponseEntity<String> options() {
+
+		logger.info( "options!" );
+	
+		HttpHeaders httpHeaders
+			= new HttpHeaders();
+		
+		httpHeaders.add("Access-Control-Allow-Origin", "*" ) ;
+		httpHeaders.add("Access-Control-Allow-Methods", "OPTIONS,GET,POST,PUT" );
+		httpHeaders.add("Access-Control-Allow-Credentials","true");
+		httpHeaders.add("Access-Control-Allow-Headers","Content-Type");
+		
+		ResponseEntity<String> response;
+		
+		response = new ResponseEntity<String>( "okelidokeli", httpHeaders, HttpStatus.OK );
+		
+		return response;
+	}
+	
+	
 	
 }

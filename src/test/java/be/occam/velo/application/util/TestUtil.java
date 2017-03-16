@@ -9,6 +9,8 @@ import java.util.Map;
 import org.junit.Assert;
 import org.springframework.http.ResponseEntity;
 
+import be.occam.velo.LocationDTO;
+import be.occam.velo.RideDTO;
 import be.occam.velo.application.jtests.TestData.Ids;
 import be.occam.velo.web.util.Headers;
 
@@ -111,6 +113,25 @@ public class TestUtil {
 		
 		return response.getBody();
 		
+		
+	}
+	
+	public static RideDTO ride( RideDTO[] rides ) {
+		
+		RideDTO ride
+			= null;
+		
+		if ( rides.length > 0 ) {
+			ride = rides[ 0 ];
+		}
+		
+		return ride;
+		
+	}
+	
+	public static RideDTO ride( ResponseEntity<RideDTO[]> response ) {
+		
+		return ride( response.getBody() );
 		
 	}
 	

@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.WebRequest;
 
 import be.occam.utils.spring.web.Result;
+import be.occam.velo.MapDTO;
 import be.occam.velo.domain.service.MapService;
 
 @Controller
@@ -57,7 +58,7 @@ public class MapController {
 		httpHeaders.add("Access-Control-Allow-Methods", "GET,OPTIONS" );
 		httpHeaders.add("Access-Control-Allow-Credentials","true");
 		
-		this.mapService.guard().update( map );
+		this.mapService.guard().consume( map );
 
 		ResponseEntity<MapDTO> response
 			= new ResponseEntity<MapDTO>( map , httpHeaders, HttpStatus.OK );

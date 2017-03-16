@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import be.occam.utils.spring.web.Result;
 import be.occam.utils.spring.web.Result.Value;
+import be.occam.velo.LocationDTO;
 import be.occam.velo.application.util.DataGuard;
 import be.occam.velo.domain.object.Location;
 import be.occam.velo.domain.people.LocationManager;

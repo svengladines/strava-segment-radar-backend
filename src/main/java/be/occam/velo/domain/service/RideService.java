@@ -1,6 +1,6 @@
 package be.occam.velo.domain.service;
 
-import static be.occam.utils.javax.Utils.list;
+import static be.occam.utils.javax.Utils.*;
 import static be.occam.utils.javax.Utils.map;
 
 import java.util.Calendar;
@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import be.occam.utils.spring.web.Result;
 import be.occam.utils.spring.web.Result.Value;
+import be.occam.utils.timing.Timing;
 import be.occam.velo.RideDTO;
 import be.occam.velo.application.util.DataGuard;
 import be.occam.velo.domain.object.Ride;
@@ -126,6 +127,17 @@ public class RideService {
 				= Ride.from( ride );
 			
 			l.setMoment( now );
+			
+			if ( isEmpty( l.getTitle() ) ) {
+				
+				StringBuilder b
+					= new StringBuilder();
+				
+				b.append( "Ride ");
+				b.append( Timing.moment( now ) );
+				
+				l.setTitle( b.toString() );
+			}
 			
 			Ride created 
 				= this.rideManager.create( l );

@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import be.occam.utils.spring.web.Result;
 import be.occam.utils.spring.web.Result.Value;
+import be.occam.velo.MapDTO;
 import be.occam.velo.application.util.DataGuard;
 import be.occam.velo.domain.object.Map;
 import be.occam.velo.domain.people.Mapper;

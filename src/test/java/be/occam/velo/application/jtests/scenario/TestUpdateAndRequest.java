@@ -11,6 +11,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import be.occam.test.jtest.JTest;
+import be.occam.velo.LocationDTO;
 import be.occam.velo.application.jtests.TestData.Ids;
 
 /**

@@ -9,6 +9,8 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import be.occam.velo.web.controller.api.LocationsController;
+import be.occam.velo.web.controller.api.MapController;
+import be.occam.velo.web.controller.api.RidesController;
 
 @Configuration
 @EnableWebMvc
@@ -58,6 +60,20 @@ public class MvcConfig {
 		public LocationsController locationsController() {
 			
 			return new LocationsController();
+			
+		}
+		
+		@Bean
+		public RidesController ridesController() {
+			
+			return new RidesController();
+			
+		}
+		
+		@Bean
+		public MapController mapController() {
+			
+			return new MapController();
 			
 		}
 		

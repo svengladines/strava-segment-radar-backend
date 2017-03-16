@@ -56,7 +56,7 @@ public class RideManager {
     	saved 
 			= this.rideRepository.saveAndFlush( saved );
     	
-    	logger.info( "created ride for [{}] with uuid [{}], lattitude [{}] and longitude [{}]", new Object[] { saved.getUserID(), saved.getUuid(), saved.getLongitude(), saved.getLattitude() } );
+    	logger.info( "created ride with uuid [{}] and title [{}]", new Object[] { saved.getUuid(), saved.getTitle() } );
     	
     	return Ride.from(saved);
     	
@@ -86,7 +86,7 @@ public class RideManager {
     protected Ride ride( String id ) {
     	
     	RideEntity entity
-    		= this.rideRepository.findByUuid( id );
+    		= this.rideRepository.findOneByUuid( id );
     	
     	if ( entity != null ) {
     		logger.debug( "found Ride with id [{}]", id );

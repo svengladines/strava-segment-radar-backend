@@ -22,7 +22,11 @@ import be.occam.utils.spring.configuration.ConfigurationProfiles;
 import be.occam.velo.application.util.DataGuard;
 import be.occam.velo.application.util.NoopGuard;
 import be.occam.velo.domain.people.LocationManager;
+import be.occam.velo.domain.people.Mapper;
+import be.occam.velo.domain.people.RideManager;
 import be.occam.velo.domain.service.LocationService;
+import be.occam.velo.domain.service.MapService;
+import be.occam.velo.domain.service.RideService;
 
 @Configuration
 public class ViveLeVeloApplicationConfig {
@@ -84,13 +88,33 @@ public class ViveLeVeloApplicationConfig {
 		*/
 		
 		@Bean
-		public LocationService entryService(  ) {
+		public LocationService locationService(  ) {
 			return new LocationService(  );
+		}
+		
+		@Bean
+		public MapService mapService(  ) {
+			return new MapService(  );
+		}
+		
+		@Bean
+		public RideService rideService() {
+			return new RideService();
 		}
 		
 		@Bean
 		public LocationManager locationManager() {
 			return new LocationManager();
+		}
+		
+		@Bean
+		public RideManager rideManager() {
+			return new RideManager();
+		}
+		
+		@Bean
+		public Mapper mapper() {
+			return new Mapper();
 		}
 		
 		/*
