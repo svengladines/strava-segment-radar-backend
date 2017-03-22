@@ -56,7 +56,7 @@ public class LocationManager {
     	saved 
 			= this.locationRepository.saveAndFlush( saved );
     	
-    	logger.info( "created location for [{}] with uuid [{}], lattitude [{}] and longitude [{}]", new Object[] { saved.getUserID(), saved.getUuid(), saved.getLongitude(), saved.getLattitude() } );
+    	logger.info( "created location for ride [{}], rider [{}]: latitude [{}] and longitude [{}]", new Object[] { saved.getRideID(), saved.getRiderID(), saved.getLongitude(), saved.getLattitude() } );
     	
     	return Location.from(saved);
     	
@@ -104,6 +104,27 @@ public class LocationManager {
     	
     	List<LocationEntity> entities
     		= this.locationRepository.findAll();
+    	
+    	List<Location> filtered
+			= new ArrayList<Location>();
+    	
+    	for ( LocationEntity entity : entities ) {
+    		
+    		filtered.add( Location.from( entity ) );
+    		
+    	}
+    	
+    	Collections.sort( filtered , this.lastUpdatedFirst );
+    	
+    	return filtered;
+    	
+    	
+    }
+    
+  public List<Location> findByRideID( String rideID ) {
+    	
+    	List<LocationEntity> entities
+    		= this.locationRepository.findByRideID( rideID );
     	
     	List<Location> filtered
 			= new ArrayList<Location>();

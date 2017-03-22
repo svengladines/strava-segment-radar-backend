@@ -19,6 +19,7 @@ import be.occam.velo.LocationDTO;
 import be.occam.velo.application.util.DataGuard;
 import be.occam.velo.domain.object.Location;
 import be.occam.velo.domain.people.LocationManager;
+import be.occam.velo.web.util.VeloUtil;
 
 public class LocationService {
 	
@@ -36,9 +37,9 @@ public class LocationService {
 	}
 	
 	@Transactional( readOnly=true )
-	public Result<List<Result<LocationDTO>>> query( String userID ) {
+	public Result<List<Result<LocationDTO>>> query( String rideID ) {
 		
-		logger.info( "query, userID is [{}]", userID );
+		logger.info( "query, rideID is [{}]", rideID );
 		
 		Result<List<Result<LocationDTO>>> result
 			= new Result<List<Result<LocationDTO>>>();
@@ -52,13 +53,20 @@ public class LocationService {
 		Map<String, List<LocationDTO>> map
 			= map();
 		
-		if ( userID == null ) {
+		if ( rideID == null ) {
 			
 			List<Location> all 
 				= this.locationManager.all();
 			
 			locations.addAll( all );
 			
+		}
+		else {
+			
+			List<Location> loaded 
+				= this.locationManager.findByRideID( rideID );
+		
+			locations.addAll( loaded );
 		}
 		
 		/*
@@ -76,8 +84,13 @@ public class LocationService {
 			Result<LocationDTO> individualResult
 				= new Result<LocationDTO>();
 			
+			LocationDTO dto 
+				= Location.dto( location );
+			
+			dto.setColor( VeloUtil.color( location) );
+			
 			individualResult.setValue( Value.OK );
-			individualResult.setObject( Location.dto( location ) );
+			individualResult.setObject( dto );
 			
 			individualResults.add( individualResult );
 			

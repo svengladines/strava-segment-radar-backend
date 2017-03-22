@@ -9,11 +9,18 @@ import be.occam.velo.repository.RideEntity;
 
 public class Ride {
 	
+	public static enum Status {
+		
+		READY_TO_ROLL, ROLLIN_IN_THE_DEEP, PAUZED, FINITO
+		
+	};
+	
 	protected String uuid;
 	protected String title;
 	protected double radius;
 	protected Date moment;
 	protected Coordinate start;
+	protected Status status;
 	
 	public String getUuid() {
 		return uuid;
@@ -54,21 +61,37 @@ public class Ride {
 	public void setStart(Coordinate start) {
 		this.start = start;
 	}
+	
+	public Status getStatus() {
+		return status;
+	}
 
-public static Ride from( RideDTO f ) {
+	public void setStatus(Status status) {
+		this.status = status;
+	}
+
+	public static Ride from( RideDTO f ) {
 		
 		Ride t
 			= new Ride();
+		
 		t.setUuid( f.getUuid() );
 		t.setTitle( f.getTitle() );
 		t.setMoment( f.getMoment() );
 		
 		Coordinate start
 			= new Coordinate();
+		
 		start.setLatitude( f.getStart().getLatitude() );
 		start.setLongitude( f.getStart().getLongitude() );
 		
 		t.setStart( start );
+		
+		if ( f.getStatus() != null ) {
+		
+			t.setStatus( Ride.Status.valueOf( f.getStatus().name() ) );
+			
+		}
 		
 		return t;
 		
@@ -87,8 +110,13 @@ public static Ride from( RideDTO f ) {
 			= new CoordinateDTO();
 		start.setLatitude( f.getStart().getLatitude() );
 		start.setLongitude( f.getStart().getLongitude() );
-		
 		t.setStart( start );
+		
+		if ( f.getStatus() != null ) {
+		
+			t.setStatus( RideDTO.Status.valueOf( f.getStatus().name() ) );
+			
+		}
 		
 		return t;
 		
@@ -110,6 +138,12 @@ public static Ride from( RideDTO f ) {
 		start.setLongitude( f.getStartLongitude() );
 		
 		t.setStart( start );
+		
+		if ( f.getStatus() != null ) {
+		
+			t.setStatus( Status.valueOf( f.getStatus() ) );
+			
+		}
 		
 		return t;
 		

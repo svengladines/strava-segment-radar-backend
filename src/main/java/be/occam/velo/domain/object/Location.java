@@ -8,7 +8,8 @@ import be.occam.velo.repository.LocationEntity;
 public class Location {
 	
 	protected String uuid;
-	protected String userID;
+	protected String rideID;
+	protected String riderID;
 	protected double longitude;
 	protected double lattitude;
 	protected Date moment;
@@ -21,14 +22,22 @@ public class Location {
 		this.uuid = uuid;
 	}
 	
-	public String getUserID() {
-		return userID;
+	public String getRideID() {
+		return rideID;
 	}
-	
-	public void setUserID(String userID) {
-		this.userID = userID;
+
+	public void setRideID(String rideID) {
+		this.rideID = rideID;
 	}
-	
+
+	public String getRiderID() {
+		return riderID;
+	}
+
+	public void setRiderID(String riderID) {
+		this.riderID = riderID;
+	}
+
 	public double getLongitude() {
 		return longitude;
 	}
@@ -55,7 +64,8 @@ public class Location {
 		Location t
 			= new Location();
 		t.setUuid( f.getUuid() );
-		t.setUserID( f.getUserID() );
+		t.setRideID( f.getRideID() );
+		t.setRiderID( f.getRiderID() );
 		t.setLattitude( f.getLattitude() );
 		t.setLongitude( f.getLongitude() );
 		t.setMoment( f.getMoment() );
@@ -70,7 +80,7 @@ public class Location {
 			= new LocationDTO();
 		
 		t.setUuid( f.getUuid() );
-		t.setUserID( f.getUserID() );
+		t.setRiderID( f.getRiderID() );
 		t.setLattitude( f.getLattitude() );
 		t.setLongitude( f.getLongitude() );
 		t.setMoment( f.getMoment() );
@@ -84,7 +94,7 @@ public class Location {
 		Location t
 			= new Location();
 		t.setUuid( f.getUuid() );
-		t.setUserID( f.getUserID() );
+		t.setRiderID( f.getRiderID() );
 		t.setLattitude( f.getLattitude() );
 		t.setLongitude( f.getLongitude() );
 		t.setMoment( f.getMoment() );
@@ -99,7 +109,8 @@ public class Location {
 			= new LocationEntity();
 		
 		t.setUuid( f.getUuid() );
-		t.setUserID( f.getUserID() );
+		t.setRideID( f.getRideID() );
+		t.setRiderID( f.getRiderID() );
 		t.setLattitude( f.getLattitude() );
 		t.setLongitude( f.getLongitude() );
 		t.setMoment( f.getMoment() );

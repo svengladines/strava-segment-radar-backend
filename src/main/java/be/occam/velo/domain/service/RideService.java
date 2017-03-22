@@ -21,6 +21,7 @@ import be.occam.velo.RideDTO;
 import be.occam.velo.application.util.DataGuard;
 import be.occam.velo.domain.object.Coordinate;
 import be.occam.velo.domain.object.Ride;
+import be.occam.velo.domain.object.Ride.Status;
 import be.occam.velo.domain.people.RideManager;
 
 public class RideService {
@@ -36,6 +37,24 @@ public class RideService {
 	
 	public RideService( ) {
 		logger.info( "ride service started" );
+	}
+	
+	@Transactional( readOnly=true )
+	public Result<RideDTO> findOne( String uuid ) {
+		
+		logger.info( "findOne, uuid is [{}]", uuid );
+		
+		Result<RideDTO> result
+			= new Result<RideDTO>();
+		
+		Ride found 
+			= this.rideManager.findOneByUuid( uuid );
+		
+		result.setValue( Value.OK );
+		result.setObject( Ride.dto( found ) );
+		
+		return result;
+			
 	}
 	
 	@Transactional( readOnly=true )
@@ -123,26 +142,20 @@ public class RideService {
 		
 		for ( RideDTO ride : rides ) {
 			
-			Ride l
-				= Ride.from( ride );
+			if ( isEmpty( ride.getUuid() ) ) {
 			
-			l.setMoment( now );
-			
-			if ( isEmpty( l.getTitle() ) ) {
+				Ride created = 
+					this.create( ride );
 				
-				StringBuilder b
-					= new StringBuilder();
+				consumed.add( Ride.dto( created ) );
 				
-				b.append( "Ride ");
-				b.append( Timing.moment( now ) );
-				
-				l.setTitle( b.toString() );
 			}
-			
-			Ride created 
-				= this.rideManager.create( l );
-			
-			consumed.add( Ride.dto( created ) );
+			else {
+				Ride updated = 
+						this.update( ride );
+					
+					consumed.add( Ride.dto( updated ) );
+			}
 			
 		}
 		
@@ -150,6 +163,46 @@ public class RideService {
 		
 		return result;
 		
+	}
+	
+	protected Ride create( RideDTO ride ) {
+		
+		Date now
+			= new Date();
+		
+		Ride l
+			= Ride.from( ride );
+	
+		l.setMoment( now );
+	
+		if ( isEmpty( l.getTitle() ) ) {
+			
+			StringBuilder b
+				= new StringBuilder();
+			
+			b.append( "Ride ");
+			b.append( Timing.moment( now ) );
+			
+			l.setTitle( b.toString() );
+		}
+		
+		l.setStatus( Status.READY_TO_ROLL );
+	
+		Ride created 
+			= this.rideManager.create( l );
+	
+		return created;
+	}
+	
+	protected Ride update( RideDTO ride ) {
+		
+		Ride l
+			= Ride.from( ride );
+	
+		Ride created 
+			= this.rideManager.update( l.getUuid(), l );
+	
+		return created;
 	}
 	
 	public RideService guard() {

@@ -6,6 +6,7 @@ import javax.persistence.spi.PersistenceProvider;
 import org.datanucleus.api.jpa.PersistenceProviderImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Profile;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
@@ -14,6 +15,7 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.transaction.PlatformTransactionManager;
 
 import be.occam.utils.spring.configuration.ConfigurationProfiles;
+import be.occam.velo.application.jtests.DevData;
 import be.occam.velo.application.util.DataGuard;
 import be.occam.velo.application.util.DevGuard;
 
@@ -37,6 +39,12 @@ public class ViveLeVeloApplicationConfigForDevelopment {
 			
 			return "sven.gladines@gmail.com"; 
 			
+		}
+		
+		@Bean
+		@Lazy( false )
+		public DevData devData() {
+			return new DevData();
 		}
 		
 	}

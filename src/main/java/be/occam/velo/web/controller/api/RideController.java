@@ -14,67 +14,66 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.WebRequest;
 
 import be.occam.utils.spring.web.Result;
-import be.occam.velo.LocationDTO;
-import be.occam.velo.domain.service.LocationService;
+import be.occam.velo.RideDTO;
+import be.occam.velo.domain.service.RideService;
 
 @Controller
-@RequestMapping(value="/locations")
-public class LocationsController {
+@RequestMapping(value="/rides/{uuid}")
+public class RideController {
 	
 	private final Logger logger 
-		= LoggerFactory.getLogger( LocationsController.class );
+		= LoggerFactory.getLogger( RideController.class );
 	
 	@Resource
-	LocationService locationService;
+	RideService rideService;
 	
 	@RequestMapping( method = { RequestMethod.GET } )
 	@ResponseBody
-	public ResponseEntity<List<LocationDTO>> query( @RequestParam( required=false ) String rideID, WebRequest request ) {
+	public ResponseEntity<Result<RideDTO>> get( @PathVariable String uuid, WebRequest request ) {
 		
-		logger.debug( "GET; query for ride [{}]", rideID );
+		logger.debug( "GET; uuid = [{}]", uuid );
 		
-		Result<List<Result<LocationDTO>>> locationsResult
-			= locationService.guard().query( rideID );
+		Result<RideDTO> rideResult
+			= rideService.guard().findOne( uuid );
 		
-		List<LocationDTO> locations
-			= list();
-		
-		for ( Result<LocationDTO> result : locationsResult.getObject() ) {
-			
-			locations.add( result.getObject() );
-			
-		}
-		
-		return response( locations, HttpStatus.OK );
+		return response( rideResult, HttpStatus.OK );
 			
 	}
 	
-	@RequestMapping( method = { RequestMethod.POST }, consumes = { MediaType.APPLICATION_JSON_VALUE } )
+	@RequestMapping( method = { RequestMethod.PUT }, consumes = { MediaType.APPLICATION_JSON_VALUE } )
 	@ResponseBody
-	public ResponseEntity<List<LocationDTO>> post( @RequestBody List<LocationDTO> locations, WebRequest request ) {
+	public ResponseEntity<Result<RideDTO>> put( @RequestBody RideDTO ride, WebRequest request ) {
 		
-		logger.info( "locations received: [{}]", locations );
+		logger.info( "ride received: [{}]", ride );
 		
 		HttpHeaders httpHeaders
 			= new HttpHeaders();
 
 		httpHeaders.add("Access-Control-Allow-Origin", "*" ) ;
-		httpHeaders.add("Access-Control-Allow-Methods", "GET,POST,OPTIONS" );
+		httpHeaders.add("Access-Control-Allow-Methods", "POST" );
 		httpHeaders.add("Access-Control-Allow-Credentials","true");
 		
-		this.locationService.guard().consume( locations );
+		Result<List<RideDTO>> consumeResult
+			= this.rideService.guard().consume( list( ride ) );
+		
+		Result<RideDTO> result
+			= new Result<RideDTO>();
+		
+		// TODO, check size
+		result.setValue( consumeResult.getValue() );
+		result.setObject( consumeResult.getObject().get( 0 ) );
+		result.setErrorCode( consumeResult.getErrorCode() );
 
-		ResponseEntity<List<LocationDTO>> response
-			= new ResponseEntity<List<LocationDTO>>( locations , httpHeaders, HttpStatus.OK );
-
+		ResponseEntity<Result<RideDTO>> response
+			= new ResponseEntity<Result<RideDTO>>( result , httpHeaders, HttpStatus.OK );
 
 		return response;
 
@@ -90,7 +89,7 @@ public class LocationsController {
 			= new HttpHeaders();
 		
 		httpHeaders.add("Access-Control-Allow-Origin", "*" ) ;
-		httpHeaders.add("Access-Control-Allow-Methods", "OPTIONS,GET,POST" );
+		httpHeaders.add("Access-Control-Allow-Methods", "OPTIONS,GET,POST,PUT" );
 		httpHeaders.add("Access-Control-Allow-Credentials","true");
 		httpHeaders.add("Access-Control-Allow-Headers","Content-Type");
 		
@@ -100,5 +99,7 @@ public class LocationsController {
 		
 		return response;
 	}
+	
+	
 	
 }

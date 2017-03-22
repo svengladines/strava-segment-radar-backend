@@ -10,6 +10,7 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import be.occam.velo.web.controller.api.LocationsController;
 import be.occam.velo.web.controller.api.MapController;
+import be.occam.velo.web.controller.api.RideController;
 import be.occam.velo.web.controller.api.RidesController;
 
 @Configuration
@@ -67,6 +68,13 @@ public class MvcConfig {
 		public RidesController ridesController() {
 			
 			return new RidesController();
+			
+		}
+		
+		@Bean
+		public RideController rideController() {
+			
+			return new RideController();
 			
 		}
 		

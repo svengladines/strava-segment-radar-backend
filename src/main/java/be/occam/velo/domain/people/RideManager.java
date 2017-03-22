@@ -1,5 +1,7 @@
 package be.occam.velo.domain.people;
 
+import static be.occam.utils.javax.Utils.*;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -51,7 +53,13 @@ public class RideManager {
     	RideEntity saved 
     		= this.rideRepository.saveAndFlush( entity );
     	
-    	saved.setUuid( KeyFactory.keyToString( saved.getKey() ) );
+    	if ( ride.getUuid() == null ) {
+    	
+    		saved.setUuid( KeyFactory.keyToString( saved.getKey() ) );
+    	}
+    	else {
+    		saved.setUuid( ride.getUuid() );
+    	}
     	
     	saved 
 			= this.rideRepository.saveAndFlush( saved );
@@ -64,16 +72,27 @@ public class RideManager {
 
     public Ride update( String uuid, Ride ride ) {
     	
-    	Ride loaded 
-    		= ride( uuid );
+    	RideEntity entity
+    		= this.rideRepository.findOneByUuid( uuid );
     	
-    	if ( loaded == null ) {
+    	if ( entity == null ) {
     		return null;
     	}
     	
-    	RideEntity entity
-			= Ride.entity( ride );
-	
+    	if ( ! isEmpty( ride.getTitle() ) ) {
+    		entity.setTitle( ride.getTitle() );
+    	}
+    	
+    	if ( ride.getStatus() != null ) {
+    		entity.setStatus( ride.getStatus().name() );
+    	}
+    	
+    	if ( ride.getStart() != null ) {
+    		entity.setStartLatitude( ride.getStart().getLatitude() );
+    		entity.setStartLongitude( ride.getStart().getLongitude() );
+    		logger.info( "ride starts at [{},{}]", entity.getStartLatitude(), entity.getStartLongitude() );
+    	}
+    	
     	RideEntity saved 
 			= this.rideRepository.saveAndFlush( entity );
     	
