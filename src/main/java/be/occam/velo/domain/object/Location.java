@@ -1,5 +1,6 @@
 package be.occam.velo.domain.object;
 
+import static be.occam.utils.javax.Utils.*;
 import java.util.Date;
 
 import be.occam.velo.LocationDTO;
@@ -11,8 +12,10 @@ public class Location {
 	protected String rideID;
 	protected String riderID;
 	protected double longitude;
-	protected double lattitude;
+	protected double latitude;
 	protected Date moment;
+	protected String comment;
+	protected Event event;
 	
 	public String getUuid() {
 		return uuid;
@@ -47,16 +50,33 @@ public class Location {
 	}
 	
 	public double getLattitude() {
-		return lattitude;
+		return latitude;
 	}
 	public void setLattitude(double lattitude) {
-		this.lattitude = lattitude;
+		this.latitude = lattitude;
 	}
 	public Date getMoment() {
 		return moment;
 	}
+	
 	public void setMoment(Date moment) {
 		this.moment = moment;
+	}
+	
+	public String getComment() {
+		return comment;
+	}
+
+	public void setComment(String comment) {
+		this.comment = comment;
+	}
+
+	public Event getEvent() {
+		return event;
+	}
+
+	public void setEvent(Event event) {
+		this.event = event;
 	}
 
 	public static Location from( LocationDTO f ) {
@@ -69,6 +89,14 @@ public class Location {
 		t.setLattitude( f.getLattitude() );
 		t.setLongitude( f.getLongitude() );
 		t.setMoment( f.getMoment() );
+		
+		if ( ! isEmpty( f.getComment() ) ) {
+			t.setComment( f.getComment() );
+		}
+		
+		if ( f.getEvent() != null ) {
+			t.setEvent( Event.valueOf( f.getEvent() ) );
+		}
 		
 		return t;
 		

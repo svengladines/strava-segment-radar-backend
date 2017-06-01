@@ -37,12 +37,15 @@ public class LocationsController {
 	
 	@RequestMapping( method = { RequestMethod.GET } )
 	@ResponseBody
-	public ResponseEntity<List<LocationDTO>> query( @RequestParam( required=false ) String rideID, WebRequest request ) {
+	public ResponseEntity<List<LocationDTO>> query( 
+			@RequestParam( required=false ) String rideID, 
+			@RequestParam( required=false ) Integer last,
+			WebRequest request ) {
 		
 		logger.debug( "GET; query for ride [{}]", rideID );
 		
 		Result<List<Result<LocationDTO>>> locationsResult
-			= locationService.guard().query( rideID );
+			= locationService.guard().query( rideID, last );
 		
 		List<LocationDTO> locations
 			= list();

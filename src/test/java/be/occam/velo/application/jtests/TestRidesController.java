@@ -40,7 +40,7 @@ public class TestRidesController extends JTest {
 		
 		one.setStart( start );
 		
-		postJSON( this.ridesURL, new RideDTO[] { one } );
+		//postJSON( this.ridesURL, new RideDTO[] { one } );
 		
 		//logger.info( "consumed ride has title [{}]", consumed.getTitle() );
 		

@@ -37,9 +37,9 @@ public class LocationService {
 	}
 	
 	@Transactional( readOnly=true )
-	public Result<List<Result<LocationDTO>>> query( String rideID ) {
+	public Result<List<Result<LocationDTO>>> query( String rideID, Integer last ) {
 		
-		logger.info( "query, rideID is [{}]", rideID );
+		logger.info( "query, rideID is [{}], last is [{}]", rideID, last );
 		
 		Result<List<Result<LocationDTO>>> result
 			= new Result<List<Result<LocationDTO>>>();
@@ -50,35 +50,46 @@ public class LocationService {
 		List<Location> locations
 			= list( );
 		
-		Map<String, List<LocationDTO>> map
+		Map<String, List<Location>> map
 			= map();
 		
-		if ( rideID == null ) {
-			
-			List<Location> all 
-				= this.locationManager.all();
-			
-			locations.addAll( all );
-			
-		}
-		else {
-			
-			List<Location> loaded 
-				= this.locationManager.findByRideID( rideID );
+		List<Location> loaded 
+			= this.locationManager.findByRideID( rideID );
 		
-			locations.addAll( loaded );
+		for ( Location location : loaded ) {
+			
+			String riderID
+				= location.getRiderID();
+			
+			List<Location> riderLocations
+				= map.get( riderID );
+			
+			if ( riderLocations == null ) {
+				riderLocations = list();
+				map.put( riderID, riderLocations );
+			}
+			
+			riderLocations.add( location );
+			
 		}
 		
-		/*
-		for ( String recipient : MiniMaxi.RECIPIENTS ) {
+		for ( String riderID : map.keySet() ) {
 			
-			List<LocationDTO> adventures = this.adventurer.read( recipient );
+			List<Location> riderLocations
+				= map.get( riderID );
 			
-			map.put( recipient, adventures );
+			if ( last != null ) {
+				riderLocations = riderLocations.subList( 0, last );
+				logger.info( "[{}]; kept last [{}] locations", riderID, riderLocations.size() );
+			}
+			
+			locations.addAll( riderLocations );
 			
 		}
-		*/
-			
+		
+		// TODO: current algorithm  does not keep order (rider per rider)
+		logger.info( "kept [{}] locations", locations.size() );
+		
 		for ( Location location: locations ) {
 			
 			Result<LocationDTO> individualResult

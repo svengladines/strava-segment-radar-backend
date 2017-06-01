@@ -19,9 +19,9 @@ import be.occam.utils.spring.web.Result.Value;
 import be.occam.utils.timing.Timing;
 import be.occam.velo.RideDTO;
 import be.occam.velo.application.util.DataGuard;
-import be.occam.velo.domain.object.Coordinate;
 import be.occam.velo.domain.object.Ride;
 import be.occam.velo.domain.object.Ride.Status;
+import be.occam.velo.domain.people.LocationManager;
 import be.occam.velo.domain.people.RideManager;
 
 public class RideService {
@@ -92,7 +92,7 @@ public class RideService {
 				
 				if ( rideCal.get( Calendar.YEAR ) == todayCal.get( Calendar.YEAR ) ) {
 					
-					if ( rideCal.get( Calendar.DAY_OF_YEAR ) == todayCal.get( Calendar.YEAR ) ) {
+					if ( rideCal.get( Calendar.DAY_OF_YEAR ) == todayCal.get( Calendar.DAY_OF_YEAR ) ) {
 						
 						rides.add( ride );
 						
@@ -151,10 +151,12 @@ public class RideService {
 				
 			}
 			else {
-				Ride updated = 
-						this.update( ride );
+				
+				Ride updated 
+					= this.update( ride );
 					
-					consumed.add( Ride.dto( updated ) );
+				consumed.add( Ride.dto( updated ) );
+				
 			}
 			
 		}

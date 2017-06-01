@@ -1,6 +1,9 @@
 package be.occam.velo.domain.object;
 
+import static be.occam.utils.javax.Utils.*;
 import java.util.Date;
+import java.util.List;
+import java.util.StringTokenizer;
 
 import be.occam.velo.CoordinateDTO;
 import be.occam.velo.RideDTO;
@@ -21,6 +24,11 @@ public class Ride {
 	protected Date moment;
 	protected Coordinate start;
 	protected Status status;
+	protected List<String> riders;
+	
+	public Ride() {
+		this.riders = list();
+	}
 	
 	public String getUuid() {
 		return uuid;
@@ -69,6 +77,10 @@ public class Ride {
 	public void setStatus(Status status) {
 		this.status = status;
 	}
+	
+	public List<String> getRiders() {
+		return riders;
+	}
 
 	public static Ride from( RideDTO f ) {
 		
@@ -79,13 +91,17 @@ public class Ride {
 		t.setTitle( f.getTitle() );
 		t.setMoment( f.getMoment() );
 		
-		Coordinate start
-			= new Coordinate();
+		if ( f.getStart() != null ) {
 		
-		start.setLatitude( f.getStart().getLatitude() );
-		start.setLongitude( f.getStart().getLongitude() );
-		
-		t.setStart( start );
+			Coordinate start
+				= new Coordinate();
+			
+			start.setLatitude( f.getStart().getLatitude() );
+			start.setLongitude( f.getStart().getLongitude() );
+			
+			t.setStart( start );
+			
+		}
 		
 		if ( f.getStatus() != null ) {
 		
@@ -106,11 +122,13 @@ public class Ride {
 		t.setTitle( f.getTitle() );
 		t.setMoment( f.getMoment() );
 		
-		CoordinateDTO start
-			= new CoordinateDTO();
-		start.setLatitude( f.getStart().getLatitude() );
-		start.setLongitude( f.getStart().getLongitude() );
-		t.setStart( start );
+		if ( f.getStart() != null ) {
+			CoordinateDTO start
+				= new CoordinateDTO();
+			start.setLatitude( f.getStart().getLatitude() );
+			start.setLongitude( f.getStart().getLongitude() );
+			t.setStart( start );
+		}
 		
 		if ( f.getStatus() != null ) {
 		
@@ -145,6 +163,18 @@ public class Ride {
 			
 		}
 		
+		if ( ! isEmpty( f.getRiders() ) ) {
+			
+			StringTokenizer tok
+				= new StringTokenizer( f.getRiders(), "," );
+			
+			while ( tok.hasMoreTokens() ) {
+				t.getRiders().add( tok.nextToken() );
+			}
+			
+			
+		}
+		
 		return t;
 		
 	}
@@ -159,6 +189,7 @@ public class Ride {
 		t.setMoment( f.getMoment() );
 		t.setStartLatitude( f.getStart().getLatitude() );
 		t.setStartLongitude( f.getStart().getLongitude() );
+		t.setStatus( f.getStatus().name() );
 		
 		return t;
 		
