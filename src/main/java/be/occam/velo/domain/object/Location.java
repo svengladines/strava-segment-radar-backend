@@ -108,6 +108,7 @@ public class Location {
 			= new LocationDTO();
 		
 		t.setUuid( f.getUuid() );
+		t.setRideID( f.getRideID() );
 		t.setRiderID( f.getRiderID() );
 		t.setLattitude( f.getLattitude() );
 		t.setLongitude( f.getLongitude() );
@@ -122,6 +123,7 @@ public class Location {
 		Location t
 			= new Location();
 		t.setUuid( f.getUuid() );
+		t.setRideID( f.getRideID() );
 		t.setRiderID( f.getRiderID() );
 		t.setLattitude( f.getLattitude() );
 		t.setLongitude( f.getLongitude() );

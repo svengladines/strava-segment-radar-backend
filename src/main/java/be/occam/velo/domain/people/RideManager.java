@@ -103,21 +103,42 @@ public class RideManager {
     }
     
     protected Ride ride( String id ) {
+
+    	Ride ride 
+    		= null;
     	
     	RideEntity entity
     		= this.rideRepository.findOneByUuid( id );
     	
     	if ( entity != null ) {
     		logger.debug( "found Ride with id [{}]", id );
+    		ride = Ride.from( entity );
     	}
     	
-    	return Ride.from( entity );
+    	return ride;
     	
     }
     
     public Ride findOneByUuid( String uuid ) {
     	return this.ride( uuid );
     }
+    
+    public Ride findOneByTitle( String title ) {
+    	
+    	Ride ride 
+			= null;
+	
+    	RideEntity entity
+			= this.rideRepository.findOneByTitle( title );
+	
+		if ( entity != null ) {
+			logger.debug( "found Ride with title [{}]", title );
+			ride = Ride.from( entity );
+		}
+	
+		return ride;
+    }
+    
     
     public List<Ride> all( ) {
     	

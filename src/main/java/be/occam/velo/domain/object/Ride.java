@@ -20,6 +20,7 @@ public class Ride {
 	
 	protected String uuid;
 	protected String title;
+	protected String description;
 	protected double radius;
 	protected Date moment;
 	protected Coordinate start;
@@ -89,6 +90,7 @@ public class Ride {
 		
 		t.setUuid( f.getUuid() );
 		t.setTitle( f.getTitle() );
+		t.setDescription( f.getDescription() );
 		t.setMoment( f.getMoment() );
 		
 		if ( f.getStart() != null ) {
@@ -113,6 +115,14 @@ public class Ride {
 		
 	}
 	
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
 	public static RideDTO dto( Ride f ) {
 		
 		RideDTO t
@@ -121,6 +131,7 @@ public class Ride {
 		t.setUuid( f.getUuid() );
 		t.setTitle( f.getTitle() );
 		t.setMoment( f.getMoment() );
+		t.setDescription( f.getDescription() );
 		
 		if ( f.getStart() != null ) {
 			CoordinateDTO start
@@ -147,7 +158,7 @@ public class Ride {
 		t.setUuid( f.getUuid() );
 		t.setTitle( f.getTitle() );
 		t.setMoment( f.getMoment() );
-		
+		t.setDescription( f.getDescription() );
 		
 		Coordinate start
 			= new Coordinate();
@@ -186,9 +197,12 @@ public class Ride {
 		
 		t.setUuid( f.getUuid() );
 		t.setTitle( f.getTitle() );
+		t.setDescription(f.getDescription() );
 		t.setMoment( f.getMoment() );
-		t.setStartLatitude( f.getStart().getLatitude() );
-		t.setStartLongitude( f.getStart().getLongitude() );
+		if ( f.getStart() != null ) {
+			t.setStartLatitude( f.getStart().getLatitude() );
+			t.setStartLongitude( f.getStart().getLongitude() );
+		}
 		t.setStatus( f.getStatus().name() );
 		
 		return t;

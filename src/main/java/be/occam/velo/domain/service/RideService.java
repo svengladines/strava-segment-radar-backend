@@ -14,14 +14,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 
+import be.occam.utils.spring.web.ErrorCode;
 import be.occam.utils.spring.web.Result;
 import be.occam.utils.spring.web.Result.Value;
 import be.occam.utils.timing.Timing;
 import be.occam.velo.RideDTO;
 import be.occam.velo.application.util.DataGuard;
+import be.occam.velo.domain.exception.ErrorCodes;
 import be.occam.velo.domain.object.Ride;
 import be.occam.velo.domain.object.Ride.Status;
-import be.occam.velo.domain.people.LocationManager;
 import be.occam.velo.domain.people.RideManager;
 
 public class RideService {
@@ -50,8 +51,40 @@ public class RideService {
 		Ride found 
 			= this.rideManager.findOneByUuid( uuid );
 		
-		result.setValue( Value.OK );
-		result.setObject( Ride.dto( found ) );
+		if ( found != null ) {
+		
+			result.setValue( Value.OK );
+			result.setObject( Ride.dto( found ) );
+		}
+		else {
+			result.setValue( Value.NOK );
+			result.setErrorCode( ErrorCodes.NOT_FOUND );
+		}
+		
+		return result;
+			
+	}
+	
+	@Transactional( readOnly=true )
+	public Result<RideDTO> findOneByTitle( String title ) {
+		
+		logger.info( "findOne, title is [{}]", title );
+		
+		Result<RideDTO> result
+			= new Result<RideDTO>();
+		
+		Ride found 
+			= this.rideManager.findOneByTitle( title );
+		
+		if ( found != null ) {
+		
+			result.setValue( Value.OK );
+			result.setObject( Ride.dto( found ) );
+		}
+		else {
+			result.setValue( Value.NOK );
+			result.setErrorCode( ErrorCodes.NOT_FOUND );
+		}
 		
 		return result;
 			

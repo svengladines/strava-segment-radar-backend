@@ -24,6 +24,7 @@ import org.springframework.web.context.request.WebRequest;
 import be.occam.utils.spring.web.Result;
 import be.occam.velo.RideDTO;
 import be.occam.velo.domain.service.RideService;
+import be.occam.velo.web.util.VeloUtil;
 
 @Controller
 @RequestMapping(value="/rides/{uuid}")
@@ -41,8 +42,15 @@ public class RideController {
 		
 		logger.debug( "GET; uuid = [{}]", uuid );
 		
-		Result<RideDTO> rideResult
-			= rideService.guard().findOne( uuid );
+		Result<RideDTO> rideResult 
+			= null;
+		
+		if ( "x".equals( uuid ) ) {
+			rideResult = rideService.guard().findOneByTitle( VeloUtil.DUVELKE_START_TITLE );
+		}
+		else {
+			rideResult= rideService.guard().findOne( uuid );
+		}
 		
 		return response( rideResult, HttpStatus.OK );
 			

@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Profile;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
@@ -21,6 +22,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import be.occam.utils.spring.configuration.ConfigurationProfiles;
 import be.occam.velo.application.util.DataGuard;
 import be.occam.velo.application.util.NoopGuard;
+import be.occam.velo.application.util.ProductionData;
 import be.occam.velo.domain.people.LocationManager;
 import be.occam.velo.domain.people.Mapper;
 import be.occam.velo.domain.people.RideManager;
@@ -178,6 +180,18 @@ public class ViveLeVeloApplicationConfig {
 				
 				return new NoopGuard();
 				
+			}
+			
+		}
+		
+		@Configuration
+		@Profile( { ConfigurationProfiles.PRODUCTION,ConfigurationProfiles.DEV } )
+		public static class Data {
+			
+			@Bean
+			@Lazy( false )
+			ProductionData productionData() {
+				return new ProductionData();
 			}
 			
 		}

@@ -25,5 +25,7 @@ public class VeloUtil {
 		return color;
 		
 	}
+	
+	public static String DUVELKE_START_TITLE = "Dag Feestvarken!";
 
 }
