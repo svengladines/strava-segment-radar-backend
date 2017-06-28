@@ -83,6 +83,10 @@ public class RideManager {
     		entity.setTitle( ride.getTitle() );
     	}
     	
+    	if ( ! isEmpty( ride.getDescription() ) ) {
+    		entity.setDescription( ride.getDescription() );
+    	}
+    	
     	if ( ride.getStatus() != null ) {
     		entity.setStatus( ride.getStatus().name() );
     	}
@@ -96,9 +100,26 @@ public class RideManager {
     	RideEntity saved 
 			= this.rideRepository.saveAndFlush( entity );
     	
-    	logger.info( "updated Ride with uiid [{}]", saved.getUuid() );
+    	logger.info( "updated Ride with uuid [{}]", saved.getUuid() );
     	
     	return Ride.from(saved);
+    	
+    }
+    
+    public Ride delete( String uuid ) {
+    	
+    	RideEntity entity
+    		= this.rideRepository.findOneByUuid( uuid );
+    	
+    	if ( entity == null ) {
+    		return null;
+    	}
+    	
+    	this.rideRepository.delete( entity );
+    	
+    	logger.info( "deleted ride with uuid [{}]", entity.getUuid() );
+    	
+    	return Ride.from( entity );
     	
     }
     

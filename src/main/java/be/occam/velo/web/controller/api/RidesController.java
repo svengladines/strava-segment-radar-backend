@@ -81,7 +81,7 @@ public class RidesController {
 			= new HttpHeaders();
 		
 		httpHeaders.add("Access-Control-Allow-Origin", "*" ) ;
-		httpHeaders.add("Access-Control-Allow-Methods", "OPTIONS,GET,POST,PUT" );
+		httpHeaders.add("Access-Control-Allow-Methods", "OPTIONS,GET,POST,PUT,DELETE" );
 		httpHeaders.add("Access-Control-Allow-Credentials","true");
 		httpHeaders.add("Access-Control-Allow-Headers","Content-Type");
 		

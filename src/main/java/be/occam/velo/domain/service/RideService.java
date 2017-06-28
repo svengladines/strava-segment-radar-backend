@@ -158,6 +158,29 @@ public class RideService {
 	}
 	
 	@Transactional( readOnly=false )
+	public Result<RideDTO> delete( String rideUuid ) {
+		
+		Result<RideDTO> result
+			= new Result<RideDTO>();
+		
+		Ride deleted 
+			= this.rideManager.delete( rideUuid );
+				
+		if ( deleted == null ) {
+			result.setValue( Value.NOK );
+			result.setErrorCode( ErrorCodes.NOT_FOUND );
+		}
+		else {
+			logger.info( "[{}]; deleted");
+			result.setValue( Value.OK );
+			result.setObject( Ride.dto( deleted ) );
+		}
+		
+		return result;
+		
+	}
+	
+	@Transactional( readOnly=false )
 	public Result<List<RideDTO>> consume( List<RideDTO> rides ) {
 		
 		logger.info( "[{}]; consume");

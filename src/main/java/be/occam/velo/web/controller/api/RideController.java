@@ -87,17 +87,39 @@ public class RideController {
 
 	}
 	
+	@RequestMapping( method = { RequestMethod.DELETE } )
+	@ResponseBody
+	public ResponseEntity<Result<RideDTO>> delete( @PathVariable String uuid, WebRequest request ) {
+		
+		logger.info( "delete request received for ride [{}]", uuid );
+		
+		HttpHeaders httpHeaders
+			= new HttpHeaders();
+
+		httpHeaders.add("Access-Control-Allow-Origin", "*" ) ;
+		httpHeaders.add("Access-Control-Allow-Credentials","true");
+		
+		Result<RideDTO> result
+			= this.rideService.guard().delete( uuid );
+		
+		ResponseEntity<Result<RideDTO>> response
+			= new ResponseEntity<Result<RideDTO>>( result , httpHeaders, HttpStatus.OK );
+
+		return response;
+
+	}
+	
 	@RequestMapping( value="/**", method = { RequestMethod.OPTIONS } )
 	@ResponseBody
 	public ResponseEntity<String> options() {
 
-		logger.info( "options!" );
+		logger.info( "options!!" );
 	
 		HttpHeaders httpHeaders
 			= new HttpHeaders();
 		
 		httpHeaders.add("Access-Control-Allow-Origin", "*" ) ;
-		httpHeaders.add("Access-Control-Allow-Methods", "OPTIONS,GET,POST,PUT" );
+		httpHeaders.add("Access-Control-Allow-Methods", "OPTIONS,GET,POST,PUT,DELETE" );
 		httpHeaders.add("Access-Control-Allow-Credentials","true");
 		httpHeaders.add("Access-Control-Allow-Headers","Content-Type");
 		
