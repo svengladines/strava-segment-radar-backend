@@ -54,8 +54,9 @@ public class LocationService {
 			= map();
 		
 		List<Location> loaded 
-			= this.locationManager.findByRideID( rideID );
-		
+			= this.locationManager.findByRideID( rideID, last );
+
+		/*
 		for ( Location location : loaded ) {
 			
 			String riderID
@@ -91,6 +92,25 @@ public class LocationService {
 		logger.info( "kept [{}] locations", locations.size() );
 		
 		for ( Location location: locations ) {
+			
+			Result<LocationDTO> individualResult
+				= new Result<LocationDTO>();
+			
+			LocationDTO dto 
+				= Location.dto( location );
+			
+			dto.setColor( VeloUtil.color( location) );
+			
+			individualResult.setValue( Value.OK );
+			individualResult.setObject( dto );
+			
+			individualResults.add( individualResult );
+			
+		}
+		*/
+		
+		
+		for ( Location location: loaded ) {
 			
 			Result<LocationDTO> individualResult
 				= new Result<LocationDTO>();

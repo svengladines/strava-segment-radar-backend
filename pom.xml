@@ -8,29 +8,25 @@
   	<name>vive-le-velo-backend</name>
   	<description>vive-le-velo-backend</description>
 	<parent>
-		<artifactId>colloseum-parent-pom</artifactId>
-		<groupId>be.occam.colloseum</groupId>
+		<artifactId>occam-parent-pom</artifactId>
+		<groupId>be.occam</groupId>
 		<version>1.0-LATEST-SNAPSHOT</version>
 	</parent>
 	
+	<dependencyManagement>
+ 		<dependencies>
+  			<dependency>
+    			<groupId>com.google.cloud</groupId>
+    			<artifactId>libraries-bom</artifactId>
+    			<version>3.3.0</version>
+    			<type>pom</type>
+    			<scope>import</scope>
+   			</dependency>
+ 		</dependencies>
+	</dependencyManagement>
+	
 	<dependencies>
-	
-		<!-- DTO -->
-		<dependency>
-			<type>jar</type>
-			<groupId>be.occam.velo</groupId>
-			<artifactId>vive-le-velo-model</artifactId>
-			<version>1.0-LATEST-SNAPSHOT</version>
-		</dependency>
 		
-		<!-- JPA -->
-		<dependency>
-			<type>jar</type>
-			<groupId>be.occam.velo</groupId>
-			<artifactId>vive-le-velo-repository</artifactId>
-			<version>1.0-LATEST-SNAPSHOT</version>
-		</dependency>
-	
 		<dependency>
 			<type>jar</type>
 			<groupId>be.occam</groupId>
@@ -39,23 +35,9 @@
 		</dependency>
 	
 		<dependency>
-			<groupId>jstl</groupId>
- 			<artifactId>jstl</artifactId>
-  			<version>1.2</version>
-  			<scope>runtime</scope>
-		</dependency>
-		
-		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context-support</artifactId>
 			<version>${org.springframework.version}</version>
-		</dependency>
-		
-		<dependency>
-			<groupId>be.occam.colloseum</groupId>
-			<artifactId>colloseum-appengine</artifactId>
-			<version>1.0-LATEST-SNAPSHOT</version>
-			<scope>compile</scope>
 		</dependency>
 		
 		<dependency>
