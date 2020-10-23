@@ -26,12 +26,6 @@ public class ProductionData {
 	@PostConstruct
 	public void makeSureProductionDataExists( ) {
 		
-		{
-		
-			
-		}
-		
-		
 	}
 
 }

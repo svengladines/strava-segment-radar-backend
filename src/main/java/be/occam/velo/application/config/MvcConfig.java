@@ -1,10 +1,8 @@
 package be.occam.velo.application.config;
 
-import org.gmr.web.multipart.GMultipartResolver;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.format.datetime.DateFormatter;
-import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
@@ -103,6 +101,7 @@ public class MvcConfig {
 		}
 	}
 	
+	/*
 	@Bean
 	MultipartResolver multipartResolver() {
 		
@@ -112,6 +111,7 @@ public class MvcConfig {
 		return resolver;
 		
 	}
+	*/
 		
 
 }

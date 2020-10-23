@@ -1,10 +1,11 @@
 package be.occam.velo.domain.object;
 
-import static be.occam.utils.javax.Utils.*;
+import static be.occam.utils.javax.Utils.isEmpty;
+
 import java.util.Date;
 
-import be.occam.velo.LocationDTO;
 import be.occam.velo.repository.LocationEntity;
+import be.occam.velo.web.dto.LocationDTO;
 
 public class Location {
 	

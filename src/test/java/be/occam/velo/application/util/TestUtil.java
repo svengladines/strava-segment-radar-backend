@@ -9,11 +9,10 @@ import java.util.Map;
 import org.junit.Assert;
 import org.springframework.http.ResponseEntity;
 
+import be.occam.strava.dto.RideDTO;
 import be.occam.utils.spring.web.Result;
-import be.occam.velo.LocationDTO;
-import be.occam.velo.RideDTO;
 import be.occam.velo.application.jtests.TestData.Ids;
-import be.occam.velo.domain.object.Ride;
+import be.occam.velo.web.dto.LocationDTO;
 import be.occam.velo.web.util.Headers;
 
 public class TestUtil {

@@ -2,7 +2,7 @@ package be.occam.velo.domain.object;
 
 import java.util.Date;
 
-import be.occam.velo.CoordinateDTO;
+import be.occam.velo.web.dto.CoordinateDTO;
 
 public class Coordinate {
 	

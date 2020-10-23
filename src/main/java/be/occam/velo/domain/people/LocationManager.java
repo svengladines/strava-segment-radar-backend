@@ -12,8 +12,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 
-import com.google.appengine.api.datastore.KeyFactory;
-
 import be.occam.velo.domain.object.Location;
 import be.occam.velo.repository.LocationEntity;
 import be.occam.velo.repository.LocationRepository;
@@ -56,7 +54,7 @@ public class LocationManager {
     	LocationEntity saved 
     		= this.locationRepository.saveAndFlush( entity );
     	
-    	saved.setUuid( KeyFactory.keyToString( saved.getKey() ) );
+    	//saved.setUuid( KeyFactory.keyToString( saved.getKey() ) );
     	
     	saved 
 			= this.locationRepository.saveAndFlush( saved );

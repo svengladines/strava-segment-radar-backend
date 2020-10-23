@@ -33,6 +33,12 @@
 			<artifactId>occam-utils</artifactId>
 			<version>1.0-LATEST-SNAPSHOT</version>
 		</dependency>
+		
+		<dependency>
+			<groupId>be.occam</groupId>
+			<artifactId>occam-strava</artifactId>
+			<version>1.0-LATEST-SNAPSHOT</version>
+		</dependency>
 	
 		<dependency>
 			<groupId>org.springframework</groupId>

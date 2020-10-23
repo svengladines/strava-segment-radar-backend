@@ -21,8 +21,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.WebRequest;
 
+import be.occam.strava.dto.RideDTO;
 import be.occam.utils.spring.web.Result;
-import be.occam.velo.RideDTO;
 import be.occam.velo.domain.service.RideService;
 import be.occam.velo.web.util.VeloUtil;
 

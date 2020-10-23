@@ -19,8 +19,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.WebRequest;
 
 import be.occam.utils.spring.web.Result;
-import be.occam.velo.MapDTO;
 import be.occam.velo.domain.service.MapService;
+import be.occam.velo.web.dto.MapDTO;
 
 @Controller
 @RequestMapping(value="/maps/{userID}")

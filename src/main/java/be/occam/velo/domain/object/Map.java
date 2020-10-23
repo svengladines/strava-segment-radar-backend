@@ -1,7 +1,7 @@
 package be.occam.velo.domain.object;
 
-import be.occam.velo.MapDTO;
 import be.occam.velo.repository.MapEntity;
+import be.occam.velo.web.dto.MapDTO;
 
 
 public class Map {
